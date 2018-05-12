@@ -47,11 +47,27 @@ func main() {
 	}
 
 	// Now we should have a working client.
-	fmt.Println(apiClient.LookupOwner())
-}
 
-func maps(lat, lon float64) string {
-	return fmt.Sprintf("https://www.google.com/maps/search/?api=1&query=%f,%f", lat, lon)
+	allWalks := apiClient.LookupPastWalks()
+	if set.ReportedWalks == nil {
+		set.ReportedWalks = make(map[string]bool)
+	}
+
+	walksToReport := make(map[string]wagapi.Walk)
+	walkers := make(map[int64]wagapi.Walker)
+	for walkID, walk := range allWalks {
+		if !set.ReportedWalks[walkID] {
+			set.ReportedWalks[walkID] = true
+			walksToReport[walkID] = walk
+
+			walkerID := walk.WalkerID
+			if _, ok := walkers[walkerID]; !ok {
+				walkers[walkerID] = apiClient.LookupWalkerInt64(walkerID)
+			}
+		}
+	}
+	produceReport(walksToReport, walkers)
+	setter.Save()
 }
 
 func printTable(data [][]string) string {
