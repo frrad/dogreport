@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strconv"
 
-	"dogreport/wagapi"
+	"github.com/frrad/dogreport/wagapi"
 	"github.com/frrad/settings"
 )
 
