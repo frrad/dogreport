@@ -1,5 +1,7 @@
-install with go get
-config is in ~/.dogreport
-a blank config should be added on first run
-just edit the username and password and you're good to go
+install with `go get github.com/frrad/dogreport`
+
+config is in `~/.dogreport`
+
+A blank config should be added on first run. 
+Just edit the username and password and you're good to go!
 
